@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxht.logprocess.logbulk.dao.ProgressMapper">
+  <resultMap id="BaseResultMap" type="com.hxht.logprocess.logbulk.model.Progress">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="use_rule_group_id" jdbcType="VARCHAR" property="useRuleGroupId" />
+    <result column="file_total" jdbcType="INTEGER" property="fileTotal" />
+    <result column="primary_file_total" jdbcType="INTEGER" property="primaryFileTotal" />
+    <result column="normal_file_handle" jdbcType="INTEGER" property="normalFileHandle" />
+    <result column="primary_file_handle" jdbcType="INTEGER" property="primaryFileHandle" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, use_rule_group_id, file_total, primary_file_total, normal_file_handle, primary_file_handle, 
+    creator, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByExample" parameterType="com.hxht.logprocess.logbulk.model.ProgressExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from progress
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+      *
+    FROM
+      progress
+        LEFT JOIN used_rule_group ON used_rule_group.id =progress.use_rule_group_id
+        LEFT JOIN project_analysis_mapper ON used_rule_group.project_analysis_id = project_analysis_mapper.id
+    WHERE project_analysis_mapper.project_id = #{projectId}
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from progress
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectByUsedRuleGroupId" parameterType="java.lang.String" resultMap="BaseResultMap">
+       select * from progress where use_rule_group_id =#{usedRuleGroupId}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from progress
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hxht.logprocess.logbulk.model.ProgressExample">
+    delete from progress
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hxht.logprocess.logbulk.model.Progress">
+    insert into progress (id, use_rule_group_id, file_total, 
+      primary_file_total, normal_file_handle, primary_file_handle, 
+      creator, gmt_create, gmt_modified
+      )
+    values (#{id,jdbcType=VARCHAR}, #{useRuleGroupId,jdbcType=VARCHAR}, #{fileTotal,jdbcType=INTEGER}, 
+      #{primaryFileTotal,jdbcType=INTEGER}, #{normalFileHandle,jdbcType=INTEGER}, #{primaryFileHandle,jdbcType=INTEGER}, 
+      #{creator,jdbcType=VARCHAR}, #{gwtCreate,jdbcType=TIMESTAMP}, #{gwtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxht.logprocess.logbulk.model.Progress">
+    insert into progress
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="useRuleGroupId != null">
+        use_rule_group_id,
+      </if>
+      <if test="fileTotal != null">
+        file_total,
+      </if>
+      <if test="primaryFileTotal != null">
+        primary_file_total,
+      </if>
+      <if test="normalFileHandle != null">
+        normal_file_handle,
+      </if>
+      <if test="primaryFileHandle != null">
+        primary_file_handle,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="gwtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gwtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="useRuleGroupId != null">
+        #{useRuleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileTotal != null">
+        #{fileTotal,jdbcType=INTEGER},
+      </if>
+      <if test="primaryFileTotal != null">
+        #{primaryFileTotal,jdbcType=INTEGER},
+      </if>
+      <if test="normalFileHandle != null">
+        #{normalFileHandle,jdbcType=INTEGER},
+      </if>
+      <if test="primaryFileHandle != null">
+        #{primaryFileHandle,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="gwtCreate != null">
+        #{gwtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gwtModified != null">
+        #{gwtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hxht.logprocess.logbulk.model.ProgressExample" resultType="java.lang.Long">
+    select count(*) from progress
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update progress
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useRuleGroupId != null">
+        use_rule_group_id = #{record.useRuleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileTotal != null">
+        file_total = #{record.fileTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.primaryFileTotal != null">
+        primary_file_total = #{record.primaryFileTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.normalFileHandle != null">
+        normal_file_handle = #{record.normalFileHandle,jdbcType=INTEGER},
+      </if>
+      <if test="record.primaryFileHandle != null">
+        primary_file_handle = #{record.primaryFileHandle,jdbcType=INTEGER},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gwtCreate != null">
+        gmt_create = #{record.gwtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gwtModified != null">
+        gmt_modified = #{record.gwtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update progress
+    set id = #{record.id,jdbcType=VARCHAR},
+      use_rule_group_id = #{record.useRuleGroupId,jdbcType=VARCHAR},
+      file_total = #{record.fileTotal,jdbcType=INTEGER},
+      primary_file_total = #{record.primaryFileTotal,jdbcType=INTEGER},
+      normal_file_handle = #{record.normalFileHandle,jdbcType=INTEGER},
+      primary_file_handle = #{record.primaryFileHandle,jdbcType=INTEGER},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      gmt_create = #{record.gwtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{record.gwtModified,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxht.logprocess.logbulk.model.Progress">
+    update progress
+    <set>
+      <if test="useRuleGroupId != null">
+        use_rule_group_id = #{useRuleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileTotal != null">
+        file_total = #{fileTotal,jdbcType=INTEGER},
+      </if>
+      <if test="primaryFileTotal != null">
+        primary_file_total = #{primaryFileTotal,jdbcType=INTEGER},
+      </if>
+      <if test="normalFileHandle != null">
+        normal_file_handle = #{normalFileHandle,jdbcType=INTEGER},
+      </if>
+      <if test="primaryFileHandle != null">
+        primary_file_handle = #{primaryFileHandle,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="gwtCreate != null">
+        gmt_create = #{gwtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gwtModified != null">
+        gmt_modified = #{gwtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxht.logprocess.logbulk.model.Progress">
+    update progress
+    set use_rule_group_id = #{useRuleGroupId,jdbcType=VARCHAR},
+      file_total = #{fileTotal,jdbcType=INTEGER},
+      primary_file_total = #{primaryFileTotal,jdbcType=INTEGER},
+      normal_file_handle = #{normalFileHandle,jdbcType=INTEGER},
+      primary_file_handle = #{primaryFileHandle,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=VARCHAR},
+      gmt_create = #{gwtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gwtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

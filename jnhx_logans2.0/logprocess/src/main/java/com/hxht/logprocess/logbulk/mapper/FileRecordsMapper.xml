@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxht.logprocess.logbulk.dao.FileRecordsMapper">
+  <resultMap id="BaseResultMap" type="com.hxht.logprocess.logbulk.model.FileRecords">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="filedir_id" jdbcType="VARCHAR" property="filedirId" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+    <result column="run_status" jdbcType="INTEGER" property="runStatus" />
+    <result column="file_size" jdbcType="INTEGER" property="fileSize" />
+    <result column="data_length" jdbcType="INTEGER" property="dataLength" />
+    <result column="read_size" jdbcType="INTEGER" property="readSize" />
+    <result column="file_code" jdbcType="VARCHAR" property="fileCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, filedir_id, filename, run_status, file_size, data_length,read_size, file_code
+  </sql>
+  <select id="selectByExample" parameterType="com.hxht.logprocess.logbulk.model.FileRecordsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from file_records
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from file_records
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByFileId" parameterType="java.lang.Object" resultType="java.util.HashMap">
+    SELECT f.*,d.* from file_records f left join dir_records d on f.filedir_id=d.id  where f.filedir_id =#{fileId}  limit  #{page},#{size}
+  </select>
+  <select id="selectCountByFileId" parameterType="java.lang.Object" resultType="java.lang.Long">
+    SELECT count(1) from file_records f left join dir_records d on f.filedir_id=d.id  where f.filedir_id =#{fileId}  limit  #{page},#{size}
+  </select>
+  <select id="selectByDirId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from file_records where filedir_id = #{fileDirId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from file_records
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hxht.logprocess.logbulk.model.FileRecordsExample">
+    delete from file_records
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hxht.logprocess.logbulk.model.FileRecords">
+    insert into file_records (id, filedir_id, filename, 
+      run_status, file_size, data_length, 
+      file_code)
+    values (#{id,jdbcType=VARCHAR}, #{filedirId,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR},
+      #{runStatus,jdbcType=INTEGER}, #{fileSize,jdbcType=INTEGER}, #{dataLength,jdbcType=INTEGER}, 
+      #{fileCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxht.logprocess.logbulk.model.FileRecords">
+    insert into file_records
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="filedirId != null">
+        filedir_id,
+      </if>
+      <if test="filename != null">
+        filename,
+      </if>
+      <if test="runStatus != null">
+        run_status,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="dataLength != null">
+        data_length,
+      </if>
+      <if test="fileCode != null">
+        file_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="filedirId != null">
+        #{filedirId,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="runStatus != null">
+        #{runStatus,jdbcType=INTEGER},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=INTEGER},
+      </if>
+      <if test="dataLength != null">
+        #{dataLength,jdbcType=INTEGER},
+      </if>
+      <if test="fileCode != null">
+        #{fileCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hxht.logprocess.logbulk.model.FileRecordsExample" resultType="java.lang.Long">
+    select count(*) from file_records
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update file_records
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filedirId != null">
+        filedir_id = #{record.filedirId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filename != null">
+        filename = #{record.filename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.runStatus != null">
+        run_status = #{record.runStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileSize != null">
+        file_size = #{record.fileSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataLength != null">
+        data_length = #{record.dataLength,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileCode != null">
+        file_code = #{record.fileCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update file_records
+    set id = #{record.id,jdbcType=VARCHAR},
+      filedir_id = #{record.filedirId,jdbcType=VARCHAR},
+      filename = #{record.filename,jdbcType=VARCHAR},
+      run_status = #{record.runStatus,jdbcType=INTEGER},
+      file_size = #{record.fileSize,jdbcType=INTEGER},
+      data_length = #{record.dataLength,jdbcType=INTEGER},
+      file_code = #{record.fileCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxht.logprocess.logbulk.model.FileRecords">
+    update file_records
+    <set>
+      <if test="filedirId != null">
+        filedir_id = #{filedirId,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="runStatus != null">
+        run_status = #{runStatus,jdbcType=INTEGER},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=INTEGER},
+      </if>
+      <if test="dataLength != null">
+        data_length = #{dataLength,jdbcType=INTEGER},
+      </if>
+      <if test="fileCode != null">
+        file_code = #{fileCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxht.logprocess.logbulk.model.FileRecords">
+    update file_records
+    set filedir_id = #{filedirId,jdbcType=VARCHAR},
+      filename = #{filename,jdbcType=VARCHAR},
+      run_status = #{runStatus,jdbcType=INTEGER},
+      file_size = #{fileSize,jdbcType=INTEGER},
+      data_length = #{dataLength,jdbcType=INTEGER},
+      file_code = #{fileCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

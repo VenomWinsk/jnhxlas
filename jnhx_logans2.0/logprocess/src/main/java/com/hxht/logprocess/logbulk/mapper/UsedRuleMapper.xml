@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxht.logprocess.logbulk.dao.UsedRuleMapper">
+  <resultMap id="BaseResultMap" type="com.hxht.logprocess.logbulk.model.UsedRule">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="use_rule_group_id" jdbcType="VARCHAR" property="useRuleGroupId" />
+    <result column="rule_group_id" jdbcType="VARCHAR" property="ruleGroupId" />
+    <result column="rule_id" jdbcType="VARCHAR" property="ruleId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="log_data" jdbcType="VARCHAR" property="logData" />
+    <result column="log_feature" jdbcType="VARCHAR" property="logFeature" />
+    <result column="extract_rule" jdbcType="VARCHAR" property="extractRule" />
+    <result column="switch_rule" jdbcType="VARCHAR" property="switchRule" />
+    <result column="supplement_rule" jdbcType="VARCHAR" property="supplementRule" />
+    <result column="replace_rule" jdbcType="VARCHAR" property="replaceRule" />
+    <result column="is_enabled" jdbcType="TINYINT" property="isEnabled" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, use_rule_group_id, rule_group_id,rule_id, name, description, log_data,log_feature, extract_rule,
+    switch_rule, supplement_rule, replace_rule, is_enabled, creator, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByExample" parameterType="com.hxht.logprocess.logbulk.model.UsedRuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from used_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from used_rule
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByProject"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+      *
+    FROM
+      used_rule
+        LEFT JOIN used_rule_group ON used_rule.use_rule_group_id = used_rule_group.id
+        LEFT JOIN project_analysis_mapper ON used_rule_group.project_analysis_id = project_analysis_mapper.id
+    WHERE
+        project_analysis_mapper.project_id = #{projectId}
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from used_rule
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hxht.logprocess.logbulk.model.UsedRuleExample">
+    delete from used_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hxht.logprocess.logbulk.model.UsedRule">
+    insert into used_rule (id, use_rule_group_id, rule_id, 
+      name, description, log_feature,
+      extract_rule, switch_rule, supplement_rule, 
+      replace_rule, is_enabled, creator, 
+      gmt_create, gmt_modified)
+    values (#{id,jdbcType=VARCHAR}, #{useRuleGroupId,jdbcType=VARCHAR}, #{ruleId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{logFeature,jdbcType=VARCHAR},
+      #{extractRule,jdbcType=VARCHAR}, #{switchRule,jdbcType=VARCHAR}, #{supplementRule,jdbcType=VARCHAR}, 
+      #{replaceRule,jdbcType=VARCHAR}, #{isEnabled,jdbcType=TINYINT}, #{creator,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxht.logprocess.logbulk.model.UsedRule">
+    insert into used_rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="useRuleGroupId != null">
+        use_rule_group_id,
+      </if>
+      <if test="ruleGroupId != null">
+         rule_group_id,
+      </if>
+      <if test="ruleId != null">
+        rule_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="logData != null">
+        log_data,
+      </if>
+      <if test="logFeature != null">
+        log_feature,
+      </if>
+      <if test="extractRule != null">
+        extract_rule,
+      </if>
+      <if test="switchRule != null">
+        switch_rule,
+      </if>
+      <if test="supplementRule != null">
+        supplement_rule,
+      </if>
+      <if test="replaceRule != null">
+        replace_rule,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="useRuleGroupId != null">
+        #{useRuleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleGroupId != null">
+        #{ruleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleId != null">
+        #{ruleId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="logData != null">
+        #{logData,jdbcType=VARCHAR},
+      </if>
+      <if test="logFeature != null">
+        #{logFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="extractRule != null">
+        #{extractRule,jdbcType=VARCHAR},
+      </if>
+      <if test="switchRule != null">
+        #{switchRule,jdbcType=VARCHAR},
+      </if>
+      <if test="supplementRule != null">
+        #{supplementRule,jdbcType=VARCHAR},
+      </if>
+      <if test="replaceRule != null">
+        #{replaceRule,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hxht.logprocess.logbulk.model.UsedRuleExample" resultType="java.lang.Long">
+    select count(*) from used_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+
+  <select id="selectUseRuleByUseRuleGroupId" parameterType="java.lang.String" resultMap="BaseResultMap">
+       select * from  used_rule where use_rule_group_id =#{useRuleGroupId}
+  </select>
+
+
+
+
+  <update id="updateByExampleSelective" parameterType="map">
+    update used_rule
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useRuleGroupId != null">
+        use_rule_group_id = #{record.useRuleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleId != null">
+        rule_id = #{record.ruleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruleName != null">
+        name = #{record.ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logFeature != null">
+        log_feature = #{record.logFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extractRule != null">
+        extract_rule = #{record.extractRule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.switchRule != null">
+        switch_rule = #{record.switchRule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplementRule != null">
+        supplement_rule = #{record.supplementRule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replaceRule != null">
+        replace_rule = #{record.replaceRule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isEnabled != null">
+        is_enabled = #{record.isEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gmtModified != null">
+        gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update used_rule
+    set id = #{record.id,jdbcType=VARCHAR},
+      use_rule_group_id = #{record.useRuleGroupId,jdbcType=VARCHAR},
+      rule_id = #{record.ruleId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      log_feature = #{record.logFeature,jdbcType=VARCHAR},
+      extract_rule = #{record.extractRule,jdbcType=VARCHAR},
+      switch_rule = #{record.switchRule,jdbcType=VARCHAR},
+      supplement_rule = #{record.supplementRule,jdbcType=VARCHAR},
+      replace_rule = #{record.replaceRule,jdbcType=VARCHAR},
+      is_enabled = #{record.isEnabled,jdbcType=TINYINT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxht.logprocess.logbulk.model.UsedRule">
+    update used_rule
+    <set>
+      <if test="useRuleGroupId != null">
+        use_rule_group_id = #{useRuleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleGroupId != null">
+        rule_group_id = #{ruleGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleId != null">
+        rule_id = #{ruleId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="logData != null">
+        log_data = #{logData,jdbcType=VARCHAR},
+      </if>
+      <if test="logFeature != null">
+        log_feature = #{logFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="extractRule != null">
+        extract_rule = #{extractRule,jdbcType=VARCHAR},
+      </if>
+      <if test="switchRule != null">
+        switch_rule = #{switchRule,jdbcType=VARCHAR},
+      </if>
+      <if test="supplementRule != null">
+        supplement_rule = #{supplementRule,jdbcType=VARCHAR},
+      </if>
+      <if test="replaceRule != null">
+        replace_rule = #{replaceRule,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxht.logprocess.logbulk.model.UsedRule">
+    update used_rule
+    set use_rule_group_id = #{useRuleGroupId,jdbcType=VARCHAR},
+      rule_id = #{ruleId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      log_feature = #{logFeature,jdbcType=VARCHAR},
+      extract_rule = #{extractRule,jdbcType=VARCHAR},
+      switch_rule = #{switchRule,jdbcType=VARCHAR},
+      supplement_rule = #{supplementRule,jdbcType=VARCHAR},
+      replace_rule = #{replaceRule,jdbcType=VARCHAR},
+      is_enabled = #{isEnabled,jdbcType=TINYINT},
+      creator = #{creator,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

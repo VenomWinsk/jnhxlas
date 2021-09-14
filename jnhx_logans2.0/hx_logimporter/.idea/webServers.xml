@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="eaa20a87-dac7-42b2-84c8-53dbfe303df5" name="root@192.168.100.91:22" url="http:///">
+        <fileTransfer rootFolder="/opt/hxht/hx_logprocess/hx_logimporter" accessType="SFTP" sshConfigId="63035a07-1e30-4570-bc90-775a40194504" sshConfig="root@192.168.100.91:22 password" />
+      </webServer>
+      <webServer id="946529bb-e6dd-4666-89e4-356654602d48" name="root@192.168.100.82:22" url="http:///">
+        <fileTransfer rootFolder="/opt/hxht/hx_logprocess/hx_logimporter" accessType="SFTP" host="192.168.100.82" port="22" sshConfigId="6b065a0e-3241-41f3-a81e-7eaf51422e88" sshConfig="root@192.168.100.82:22 password" />
+      </webServer>
+    </option>
+  </component>
+</project>

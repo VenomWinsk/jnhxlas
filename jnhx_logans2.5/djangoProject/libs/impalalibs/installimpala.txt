@@ -1,0 +1,5 @@
+pip3 installl six
+pip3 installl thrift==0.11.0
+pip3 installl thrift-sasl==0.4.3
+pip3 installl pure-sasl>=0.6.2
+pip3 installl impyla

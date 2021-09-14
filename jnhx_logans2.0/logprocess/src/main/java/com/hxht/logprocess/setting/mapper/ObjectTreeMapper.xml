@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxht.logprocess.setting.dao.ObjectTreeMapper">
+    <resultMap id="BaseResultMap" type="com.hxht.logprocess.setting.model.ObjectTree">
+        <result column="object_id" jdbcType="VARCHAR" property="objectId"/>
+        <result column="object_name" jdbcType="VARCHAR" property="objectName"/>
+        <result column="rule_group_id" jdbcType="VARCHAR" property="ruleGroupId"/>
+        <result column="rule_group_name" jdbcType="VARCHAR" property="ruleGroupName"/>
+        <result column="rule_id" jdbcType="VARCHAR" property="ruleId"/>
+        <result column="rule_name" jdbcType="VARCHAR" property="ruleName"/>
+    </resultMap>
+    <select id="selectByUnitId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT g.*,h.id as rule_id,h.`name` as rule_name FROM (SELECT e.*,f.id as rule_group_id ,f.`name` as
+        rule_group_name from (SELECT c.object_id,d.object_name FROM(SELECT a.id as unit_id,a.cname,a.ename,b.object_id
+        FROM unit a LEFT JOIN unit_analy_object b on a.id = b.unit_id where a.id =
+        #{unit_id}) c LEFT JOIN analysis_object d on c.object_id = d.id) e LEFT JOIN
+        rule_group f on e.object_id = f.object_id) g LEFT JOIN rule h on g.rule_group_id=h.rule_group_id;
+    </select>
+
+    <select id="selectObjectByUnitId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT c.object_id as id ,d.object_name as name FROM(SELECT a.id as unit_id,a.cname,a.ename,b.object_id FROM unit a LEFT JOIN
+        unit_analy_object b on a.id = b.unit_id where a.id = #{unit_id}) c LEFT JOIN
+        analysis_object d on c.object_id = d.id
+    </select>
+
+    <select id="selectObject" parameterType="java.lang.String" resultType="java.util.Map">
+         select id,object_name as name from analysis_object
+    </select>
+
+
+
+    <select id="selectRuleGroupByObjectId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT id  ,name  from rule_group where object_id = #{object_id}
+    </select>
+
+    <select id="selectRuleByRuleGroupId" parameterType="java.lang.String" resultType="java.util.LinkedHashMap">
+        SELECT id ,name,2 as ownerType  from rule WHERE rule_group_id = #{rule_group_id}
+    </select>
+
+
+</mapper>

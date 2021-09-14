@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxht.logprocess.logbulk.dao.ImportFileMapper">
+  <resultMap id="BaseResultMap" type="com.hxht.logprocess.logbulk.model.ImportFile">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="project_analysis_id" jdbcType="VARCHAR" property="projectAnalysisId" />
+    <result column="node_ip" jdbcType="VARCHAR" property="nodeIp" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="is_all_file" jdbcType="INTEGER" property="isAllFile" />
+    <result column="offset" jdbcType="INTEGER" property="offset" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="role_group_id" jdbcType="VARCHAR" property="roleGroupId" />
+    <result column="priority_file_total" jdbcType="INTEGER" property="priorityFileTotal" />
+    <result column="priority_file_read" jdbcType="INTEGER" property="priorityFileRead" />
+    <result column="remain_file_total" jdbcType="INTEGER" property="remainFileTotal" />
+    <result column="remain_file_read" jdbcType="INTEGER" property="remainFileRead" />
+
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, project_analysis_id, node_ip, file_name, file_path, is_all_file, offset, gmt_create
+  </sql>
+  <select id="selectByExample" parameterType="com.hxht.logprocess.logbulk.model.ImportFileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from import_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit #{from},#{size}
+  </select>
+
+  <select id="selectByConditions" parameterType="com.hxht.logprocess.logbulk.model.ImportFile" resultMap="BaseResultMap">
+    select * from import_file limit #{from},#{size}
+  </select>
+
+
+  <select id="selectByRuleGroupId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from import_file where rule_group_id =#{ruleGroupId}
+  </select>
+
+  <delete id="deleteByExample" parameterType="com.hxht.logprocess.logbulk.model.ImportFileExample">
+    delete from import_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hxht.logprocess.logbulk.model.ImportFile">
+    insert into import_file (id, project_analysis_id, node_ip, 
+      file_name, file_path, is_all_file, 
+      offset, gmt_create)
+    values (#{id,jdbcType=VARCHAR}, #{projectAnalysisId,jdbcType=VARCHAR}, #{nodeIp,jdbcType=VARCHAR}, 
+      #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{isAllFile,jdbcType=INTEGER}, 
+      #{offset,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxht.logprocess.logbulk.model.ImportFile">
+    insert into import_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectAnalysisId != null">
+        project_analysis_id,
+      </if>
+      <if test="nodeIp != null">
+        node_ip,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="isAllFile != null">
+        is_all_file,
+      </if>
+      <if test="offset != null">
+        offset,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAnalysisId != null">
+        #{projectAnalysisId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeIp != null">
+        #{nodeIp,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllFile != null">
+        #{isAllFile,jdbcType=INTEGER},
+      </if>
+      <if test="offset != null">
+        #{offset,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hxht.logprocess.logbulk.model.ImportFileExample" resultType="java.lang.Long">
+    select count(*) from import_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update import_file
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectAnalysisId != null">
+        project_analysis_id = #{record.projectAnalysisId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nodeIp != null">
+        node_ip = #{record.nodeIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAllFile != null">
+        is_all_file = #{record.isAllFile,jdbcType=INTEGER},
+      </if>
+      <if test="record.offset != null">
+        offset = #{record.offset,jdbcType=INTEGER},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxht.logprocess.logbulk.model.ImportFile">
+    update import_statistics
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectAnalysisId != null">
+        project_analysis_id = #{record.projectAnalysisId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nodeIp != null">
+        node_ip = #{record.nodeIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAllFile != null">
+        is_all_file = #{record.isAllFile,jdbcType=INTEGER},
+      </if>
+      <if test="record.offset != null">
+        offset = #{record.offset,jdbcType=INTEGER},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from import_file
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <update id="updateByExample" parameterType="map">
+    update import_file
+    set id = #{record.id,jdbcType=VARCHAR},
+      project_analysis_id = #{record.projectAnalysisId,jdbcType=VARCHAR},
+      node_ip = #{record.nodeIp,jdbcType=VARCHAR},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      is_all_file = #{record.isAllFile,jdbcType=INTEGER},
+      offset = #{record.offset,jdbcType=INTEGER},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

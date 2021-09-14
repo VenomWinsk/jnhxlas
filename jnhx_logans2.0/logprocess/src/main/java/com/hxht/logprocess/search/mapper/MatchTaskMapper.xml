@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxht.logprocess.search.dao.MatchTaskMapper">
+  <resultMap id="BaseResultMap" type="com.hxht.logprocess.search.model.MatchTaskEntity">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="field" jdbcType="VARCHAR" property="field" />
+    <result column="parameter" jdbcType="VARCHAR" property="parameter" />
+    <result column="datetime" jdbcType="VARCHAR" property="datetime" />
+    <result column="total" jdbcType="INTEGER" property="total" />
+  </resultMap>
+  <insert id="save" parameterType="com.hxht.logprocess.search.model.MatchTaskEntity">
+    insert into match_task (id, table_name, field,parameter, datetime,total)
+    values (#{id,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR},
+            #{parameter,jdbcType=VARCHAR}, #{datetime,jdbcType=VARCHAR},#{total,jdbcType=INTEGER})
+  </insert>
+  <select id="isExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select
+    count(*)
+    from match_task
+    where table_name = #{tableName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getList"  resultMap="BaseResultMap">
+    select
+      id, table_name, field,parameter, datetime,total
+    from match_task
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from match_task where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

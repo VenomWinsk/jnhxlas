@@ -1,0 +1,478 @@
+
+body {
+    min-width: 1024px;
+    background-color: #0f1c30;
+    color: #fff !important;
+    position: relative;
+}
+
+/*清除浮动*/
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* 左右浮动 */
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+/* 位置 */
+.al {
+    text-align: left;
+}
+
+.ar {
+    text-align: right;
+}
+
+.ac {
+    text-align: center;
+}
+
+.w100 {
+    width: 100% !important;
+}
+
+.h100 {
+    height: 100% !important;
+}
+
+/* 显示 省略号 */
+.use_ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.use-ellipsis-4 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+/* 文本位置 */
+.ac {
+    text-align: center;
+}
+
+.al {
+    text-align: left;
+}
+
+.ar {
+    text-align: right;
+}
+
+/*显示隐藏*/
+.disnone {
+    display: none
+}
+
+.disblock {
+    display: block
+}
+
+.disinlineblock {
+    display: inline-block;
+}
+
+/* 背景透明 */
+.bt {
+    background-color: transparent !important;
+}
+
+.pageContent {
+    padding: 10px;
+    border: 1px solid #5dc2fe;
+    min-width: 780px;
+    height: calc(100% - 51px);
+    overflow-y: auto;
+    overflow-x: auto;
+    /*overflow-x: hidden;*/
+}
+
+.pageExceptionContent {
+    padding: 10px;
+    border: 1px solid #5dc2fe;
+    min-width: 780px;
+    height: calc(50% - 51px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pageExceptionBottom {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #5dc2fe;
+    min-width: 780px;
+    height: calc(50% - 51px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pageSelect {
+    padding: 10px;
+    border: 1px solid #5dc2fe;
+    min-width: 780px;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 20px;
+}
+
+.pageBottomContent {
+    padding: 10px;
+    border: 1px solid #5dc2fe;
+    min-width: 780px;
+    height: calc(100% - 230px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 40px;
+}
+
+.pageSpace {
+    padding: 5px 20px 20px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    background-color: #0f1c30;
+    border-radius: 8px
+}
+
+::-webkit-scrollbar-thumb {
+    background: #5dc2fe;
+    border-radius: 8px
+}
+
+.ant-table-tbody {
+    width: 8px;
+}
+
+/* 该项目下一些表格样式的处理 */
+
+/* 表格基本设置覆盖 */
+.ant-table-wrapper .ant-table {
+    color: #fff;
+}
+
+/* 关于thead设置 */
+.ant-table .ant-table-thead > tr > th {
+    background-color: transparent;
+    color: #1890ff;
+    font-weight: 700;
+}
+
+/* 关于行的鼠标悬浮 */
+.ant-table .ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table .ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table .ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+    background-color: rgba(93, 194, 254, .3);
+}
+
+body .ant-table-thead > tr > th.ant-table-column-has-actions.ant-table-column-has-sorters:hover {
+    background: rgba(24, 144, 255, 0.2);
+}
+
+body .ant-table-thead > tr > th.ant-table-column-sort {
+    background: rgba(24, 144, 255, 0.2);
+}
+
+/* 隔行换色 */
+.ant-table .ant-table-tbody > tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.ant-table .ant-table-tbody > tr:nth-child(even) {
+    background-color: rgb(15 28 48 / .4);
+}
+
+/* 关于表格编辑字体的颜色 */
+.t-optColor-normal {
+    color: #5dc2fe;
+    padding: 0 10px;
+}
+
+.t-optColor-warning {
+    color: #faad14;
+    padding: 0 10px;
+}
+
+.t-optColor-success {
+    color: #89d663;
+    padding: 0 10px;
+}
+
+.t-optColor-error {
+    color: #f36269;
+    padding: 0 10px;
+}
+
+.partTitle {
+    height: 30px;
+    line-height: 30px;
+    background-image: radial-gradient(circle at left, #096dd9, #40a9ff73, transparent);
+    padding-left: 10px;
+    border-left: 4px solid #5dc2fe;
+    display: inline-block;
+    border-radius: 4px;
+    width: auto;
+    padding-right: 80px;
+    font-weight: 700;
+    font-family: sans-serif;
+    letter-spacing: 4px;
+    font-size: 16px;
+    color: #fafafa
+}
+
+.ant-progress-text {
+    color: #ffffff !important;
+}
+
+/* 表格序号样式 */
+.tableNum {
+    color: #faad14;
+    font-family: fantasy;
+    font-style: oblique;
+    line-height: 43px;
+}
+
+.tableArrow {
+    line-height: 43px;
+}
+
+/* 表格td */
+.ant-table-tbody > tr > td {
+    max-width: 400px;
+}
+
+/* input部分 */
+body .ant-input {
+    border: 1px solid #008cff;
+    background: #042031;
+    color: #fff;
+}
+
+body .ant-input::-webkit-input-placeholder {
+    color: #dedede;
+    font-size: 14px;
+    opacity: .6;
+}
+
+body .has-error .ant-input-affix-wrapper .ant-input, .login .has-error .ant-input-affix-wrapper .ant-input:hover {
+    background-color: #042031;
+}
+
+body .has-error .ant-input, .ant-form-item-control.has-error.has-error .ant-input:hover {
+    background-color: #042031;
+}
+
+body .has-error .ant-input, .ant-form-item-control.has-error .ant-input:hover {
+    background-color: #042031;
+}
+
+body .ant-form-item {
+    margin-bottom: 0;
+}
+
+body .ant-form-item-label > label {
+    color: #ccc;
+}
+
+body .ant-table-placeholder {
+    background-color: transparent;
+    color: #efefef;
+}
+
+body .ant-table-placeholder .ant-empty-normal {
+    color: #efefef;
+}
+
+/* select部分 */
+body .ant-select-selection {
+    background-color: #042031;
+    border: 1px solid #008cff;
+}
+
+body .ant-time-picker-input {
+    background-color: #042031;
+    border: 1px solid #008cff;
+    color: white;
+}
+
+body .ant-select-selection__clear {
+    background: #5dc2fe;
+}
+
+body .ant-select {
+    color: #fff;
+    width: 100%;
+}
+
+body .ant-select-dropdown-menu-item.ant-select-dropdown-menu-item-disabled:hover {
+    color: #faad14;
+}
+
+body .ant-select-dropdown-menu-item.ant-select-dropdown-menu-item-disabled {
+    color: #faad14;
+}
+
+body .ant-select-dropdown {
+    background-color: #056caa;
+    color: #fff;
+}
+
+body .ant-select-dropdown {
+    border: 1px solid #008cff;
+}
+
+body .ant-select-dropdown-menu-item {
+    color: #fff;
+}
+
+body .ant-select-dropdown-menu-item-selected {
+    background-color: rgba(93, 194, 254, 0.6)
+}
+
+body .ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled) {
+    background-color: rgba(93, 194, 254, 0.6)
+}
+
+body .ant-select-dropdown-menu-item-active:not(.ant-select-dropdown-menu-item-disabled) {
+    background-color: rgba(93, 194, 254, 0.6)
+}
+
+body .ant-select-dropdown.ant-select-dropdown--multiple
+.ant-select-dropdown-menu-item-selected
+.ant-select-selected-icon, .ant-select-dropdown.ant-select-dropdown--multiple .ant-select-dropdown-menu-item-selected:hover .ant-select-selected-icon {
+    color: #fafafa
+}
+
+body .ant-select-selection--multiple .ant-select-selection__choice {
+    background-color: #5dc2fe;
+}
+
+/* 表格检索框 */
+.searchInput .ant-input-search-icon {
+    color: #fefefe;
+}
+
+.searchInput .ant-input-search-icon:hover {
+    color: #fefefe;
+}
+
+/* 开关按钮 */
+/* 关闭状态 */
+body .ant-switch {
+    background-color: #bfbfbf;
+}
+
+body .ant-switch-loading, .ant-switch-disabled {
+    opacity: .6;
+}
+
+/* 开启状态 */
+body .ant-switch-checked {
+    background-color: #1890ff;
+}
+
+/* tab栏相关 */
+/* 整体的基本样式*/
+body .ant-tabs {
+    color: #fff;
+}
+
+/* 更改title颜色  去除边框 采取透明色*/
+body .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+    color: #5dc2fe;
+    border: none;
+    background-color: transparent;
+}
+
+/* 更改选中背景色、字体颜色*/
+body .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab.ant-tabs-tab-active {
+    background-color: rgba(24, 144, 255, 0.5);
+    color: #fff;
+}
+
+.searchCss {
+    margin-right: 20px
+}
+
+/* dropdown 下拉框相关样式处理 */
+body .ant-dropdown-menu {
+    background-color: #056caa;
+    color: #fff;
+}
+
+.ant-dropdown-menu li, .ant-dropdown-menu li a {
+    color: #fff;
+}
+
+body .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover {
+    background-color: rgba(93, 194, 254, 0.6)
+}
+
+/* radio相关 */
+body .ant-radio-wrapper {
+    color: #fafafa;
+}
+
+body .ant-radio-wrapper .ant-radio-disabled .ant-radio-inner {
+    background-color: #aaa;
+}
+
+body .ant-radio-wrapper .ant-radio-disabled + span {
+    color: #aaa;
+}
+
+body .ant-select-disabled .ant-select-selection {
+    background-color: rgba(93, 194, 254, 0.2);
+}
+
+body .ant-input[disabled] {
+    background-color: rgba(93, 194, 254, 0.2);
+}
+
+/* 卡片样式处理 */
+body .ant-card-head {
+    color: #fff;
+}
+
+/* 时间范围选择框 */
+body .ant-calendar-range-picker-separator, body .ant-calendar-picker-icon {
+    color: #fafafa
+}
+
+/* 分隔线 */
+body .ant-divider {
+    background: #5dc2fe;
+    margin: 20px 0;
+}
+
+/* 分页 */
+body .ant-pagination {
+    color: #fafafa;
+}
+
+body .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
+body .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+    color: #fafafa;
+}

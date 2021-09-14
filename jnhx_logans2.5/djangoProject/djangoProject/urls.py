@@ -26,5 +26,6 @@ urlpatterns = [
     path('entry/', include('entry.urls')),
     path('queryset/', include('queryset.urls')),
     path('aps/', include('aps.urls')),
-    path('behavior/', include('behavior.urls'))
+    path('behavior/', include('behavior.urls')),
+    path('test_rule', include('test_log.urls')),
 ]
